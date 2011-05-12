@@ -1,6 +1,6 @@
 # The Little Schemer study notes
 
-Code I write while working through [The Little Schemer] http://www.ccs.neu.edu/home/matthias/BTLS/ (using [Racket](http://racket-lang.org/)).
+Code I write while working through [The Little Schemer](http://www.ccs.neu.edu/home/matthias/BTLS/) (using [Racket](http://racket-lang.org/)).
 
 ## LICENSE:
 
