@@ -148,10 +148,82 @@
         ((eq? old (car lat)) (cons old (cons new (cdr lat))))
         (else (cons (car lat) (insertR new old (cdr lat)))))))))
          
-         
-      
+
 (insertR 'jalapeno 'and '(tacos tamales and salsa)) ;(tacos tamales and jalapeno salsa)
 (insertR 'e 'd '(a b c d f g d h)) ;(a b c d e f g d h)
 (insertR 'topping 'fudge '(ice cream with fudge for dessert)) ;(ice cream with fudge topping for dessert)
+
+
+(define insertL
+  (lambda (new old lat)
+    (cond 
+     ((null? lat)(quote ()))
+     (else 
+      (cond 
+        ((eq? old (car lat)) (cons new (cons old (cdr lat))))
+        (else (cons (car lat) (insertL new old (cdr lat)))))))))
+
+(insertL 'd 'e '(a b c e)) ;(a b c d e)
+
+(define subst
+  (lambda (new old lat)
+    (cond 
+      ((null? lat)(quote ()))
+      (else 
+       (cond
+         ((eq? old (car lat))(cons new (cdr lat)))
+         (else (cons (car lat)(subst new old (cdr lat)))))))))
+         
+(subst 'x 'b '(a b c)) ; (a x c)
+
+(define subst2
+  (lambda (new o1 o2 lat)
+    (cond 
+      ((null? lat)(quote ()))
+      (else 
+       (cond
+         ((or (eq? o1 (car lat))(eq? o2 (car lat)))(cons new (cdr lat)))
+         (else (cons (car lat)(subst2 new old (cdr lat)))))))))
+
+(subst2 'vanilla 'chocolate 'banana '(banana ice cream with chocolate topping)) ;#(vanilla ice cream with chocolate topping)
+      
+(define multirember
+  (lambda (a lat)
+    (cond 
+      ((null? lat)(quote ()))
+      (else 
+       (cond
+         ((eq? a (car lat))(multirember a (cdr lat)))
+         (else (cons (car lat)(multirember a (cdr lat)))))))))
+    
+(multirember 'cup '(coffee cup tea cup and hick cup)) ;(coffee tea and hick)
+
+(define multiinsertR
+  (lambda (new old lat)
+    (cond 
+      ((null? lat)(quote ()))
+      (else 
+       (cond
+         ((eq? old (car lat))(cons old (cons new (multiinsertR new old (cdr lat)))))
+         (else (cons (car lat)(multiinsertR new old (cdr lat)))))))))
+    
+(multiinsertR 'x 'a '(a a a)) ;(a x a x a x)
+
+(define multisubst
+  (lambda (new old lat)
+    (cond 
+      ((null? lat)(quote ()))
+      (else 
+       (cond
+         ((eq? old (car lat))(cons new (multisubst new old (cdr lat))))
+         (else (cons (car lat)(multisubst new old (cdr lat)))))))))
+
+(multisubst 'x 'a '(a a a)) ;(x x x)
+
+
+
+    
+
+      
 
 
