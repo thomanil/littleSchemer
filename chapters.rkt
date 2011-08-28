@@ -221,9 +221,105 @@
 (multisubst 'x 'a '(a a a)) ;(x x x)
 
 
+;;; Chapter 4
 
-    
+(atom? 14) ;#t
 
-      
+(define add1
+  (lambda (n)
+    (+ n 1)))
+
+(add1 67) ;68
+
+(define sub1
+  (lambda (n)
+    (- n 1)))
+
+(sub1 67) ;66
+
+(zero? 0) ;#t
+(zero? 3) ;#f
+
+(define add
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (add1 (add n (sub1 m)))))))
+
+(add 46 12) ;58
+
+(define subtract
+  (lambda (n m)
+    (cond
+      ((zero? m) n)
+      (else (subtract (sub1 n)(sub1 m))))))
+
+(subtract 14 3) ;11
+(subtract 17 9) ;8
+
+(define addtup
+  (lambda (tup)
+    (cond
+      ((null? tup) 0)
+      (else (add (car tup)(addtup (cdr tup)))))))
+
+(addtup '(1 2 3)) ;6
+(addtup '(15 6 7 12 3)) ;43
+
+(define multiply
+  (lambda (n m)
+    (cond
+      ((zero? m) 0)
+      (else (add n (multiply n (sub1 m)))))))
+
+(multiply 5 2) ;10
+(multiply 13 4) ;52
+
+(define tup+
+  (lambda (tup1 tup2)
+    (cond
+     ((and (null? tup1)(null? tup2))(quote()))
+     (else
+      (cons (add (car tup1)(car tup2))(tup+ (cdr tup1)(cdr tup2)))))))
+
+(tup+ '(3 6 9 11 4) '(8 5 2 0 7)) ;(11 11 11 11 11)
+
+(define tup+
+  (lambda (tup1 tup2)
+    (cond
+     ((null? tup1)tup2)
+     ((null? tup2)tup1)
+     (else
+      (cons (add (car tup1)(car tup2))(tup+ (cdr tup1)(cdr tup2)))))))
+
+(tup+ '(3 7) '(4 6 8 1)) ; (7 13 8 1)
+
+(define greater
+  (lambda (n m)
+    (cond
+     ((zero? n) #f)
+     ((zero? m) #t)
+     (else
+      (greater (sub1 n) (sub1 m))))))
+
+(greater 12 133) ;#f
+(greater 120 11) ;#t
+(greater 3 3) ;#f
+
+(define lesser
+  (lambda (n m)
+    (cond
+      ((zero? m) #f)
+      ((zero? n) #t)
+     (else
+      (lesser (sub1 n) (sub1 m))))))
+
+(lesser 4 6) ;#t
+(lesser 8 3) ;#f
+(lesser 6 6) ;#f
+
+
+
+
 
 
