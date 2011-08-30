@@ -318,6 +318,128 @@
 (lesser 8 3) ;#f
 (lesser 6 6) ;#f
 
+(define equal
+  (lambda (n m)
+    (cond 
+      ((greater n m) #f)
+      ((lesser n m) #f)
+      (else #t))))
+      
+(equal 0 0) ;#t
+(equal 0 1) ;#f
+
+(define exponential
+  (lambda (n m)
+    (cond 
+      ((zero? m) 1)
+      (else (multiply n (exponential n (sub1 m)))))))
+      
+(exponential 1 1) ;1
+(exponential 2 3) ;8
+(exponential 5 3) ;125
+
+(define divide
+  (lambda (n m)
+    (cond 
+      ((lesser n m) 0)
+      (else (add1 (divide (subtract n m) m))))))
+
+
+(divide 6 2) ;3
+(divide 10 5) ;2
+(divide 11 5) ;2
+
+(define len
+  (lambda (lat)
+    (cond 
+      ((null? lat) 0)
+      (else (add1 (len (cdr lat)))))))
+
+(length '(coffee sugar tea)) ;3
+(length '(hotdogs with mustard sauerkraut and pickles)) ;6
+
+(define pick
+  (lambda (n lat)
+    (cond 
+      ((zero? (sub1 n)) (car lat))
+      (else (pick (sub1 n) (cdr lat))))))
+
+(pick 2 '(coffee sugar tea)) ;sugar
+(pick 4 '(hotdogs with mustard sauerkraut and pickles)) ;sauerkraut
+
+(define rempick
+  (lambda (n lat)
+    (cond 
+      ((zero? (sub1 n)) (cdr lat))
+      (else (cons (car lat) (rempick (sub1 n) (cdr lat)))))))
+
+(rempick 2 '(coffee sugar tea)) ;coffee tea
+(rempick 4 '(hotdogs with mustard sauerkraut and pickles)) ;hotdogs with mustard and pickles
+
+(number? 'a) ;#f
+(number? 3) ;#t
+
+(define no-nums
+  (lambda (lat)
+    (cond 
+      ((null? lat) '())
+      ((number? (car lat))(no-nums (cdr lat)))
+      (else (cons (car lat) (no-nums (cdr lat)))))))
+
+(no-nums '(one two 3 four 5 six)) ;(one two four six)
+
+(define all-nums
+  (lambda (lat)
+    (cond 
+      ((null? lat) '())
+      ((number? (car lat))(cons (car lat)(all-nums (cdr lat))))
+      (else (all-nums (cdr lat))))))
+
+(all-nums '(one two 3 four 5 six)) ;(3 5)
+
+(define equan?
+  (lambda (a b)
+    (cond
+      ((and (number? a)(number? b))(= a b))
+      ((or (number? a)(number? b)) #f)
+      (else (eq? a b)))))
+
+(equan? 3 3) ;#t
+(equan? 3 5) ;#f
+(equan? 'a 'a) ;#t
+(equan? 'a 'b) ;#f
+
+(define occur
+  (lambda (a lat)
+    (cond
+      ((null? lat) 0)
+      ((equan? a (car lat))(add1 (occur a (cdr lat))))
+      (else (occur a (cdr lat))))))
+
+(occur 'a '(a x a x a)) ;3
+(occur 3 '(a 3 a 3 a 2)) ;2
+
+(define one?
+  (lambda (a)
+      (equan? a 1)))
+
+(one? 1) ;#t
+(one? 0) ;#f
+(one? 'one) ;#f
+
+(define rempick
+  (lambda (n lat)
+    (cond
+      ((one? n)(cdr lat))
+      (else (cons (car lat)(rempick (sub1 n) (cdr lat)))))))
+
+(rempick 3 '(lemon meringue salty pie)) ;(lemon meringue pie)
+
+;;; Chapter 5
+
+
+
+
 
 
 
